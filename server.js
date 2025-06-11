@@ -6,8 +6,18 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 5001;
 
+// CORS configuration
+const corsOptions = {
+    origin: process.env.NODE_ENV === 'production' 
+        ? process.env.FRONTEND_URL 
+        : 'http://localhost:3000',
+    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+};
+
+app.use(cors(corsOptions));
+
 // Middleware
-app.use(cors());
+// app.use(cors()); // We are using a more specific cors configuration above
 app.use(express.json());
 
 // MongoDB Connection
